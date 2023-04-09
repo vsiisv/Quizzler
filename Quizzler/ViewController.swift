@@ -42,21 +42,25 @@ class ViewController: UIViewController {
 		let actualAnswer = quiz[questionNumber].answer
 		
 		if userAnswer == actualAnswer {
-			print("right")
+			sender.backgroundColor = .green
 		} else {
-			print("wrong")
+			sender.backgroundColor = .red
 		}
 		
-		if questionNumber != quiz.count - 1 {
+		if questionNumber < quiz.count - 1 {
 			questionNumber += 1
 		} else {
 			questionNumber = 0
 		}
-		updateUI()
+		
+		Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(updateUI), userInfo: nil, repeats: false)
 	}
 	
-	func updateUI() {
+	@objc func updateUI() {
 		questionText.text = quiz[questionNumber].text
+		trueButton.backgroundColor = .clear
+		falseButton.backgroundColor = .clear
+		progressBar.progress = Float(questionNumber + 1) / Float(quiz.count)
 	}
 	
 	//MARK: - views
@@ -94,7 +98,6 @@ class ViewController: UIViewController {
 	
 	lazy var progressBar: UIProgressView = {
 		let progressBar = UIProgressView()
-		progressBar.progress = 0.5
 		progressBar.progressViewStyle = .bar
 		progressBar.progressTintColor = UIColor(red: 247/255, green: 117/255, blue: 168/255, alpha: 1)
 		progressBar.trackTintColor = .white
@@ -107,6 +110,7 @@ class ViewController: UIViewController {
 		button.setTitle(title, for: .normal)
 		button.titleLabel?.font = UIFont.systemFont(ofSize: 25)
 		button.setBackgroundImage(image, for: .normal)
+		button.layer.cornerRadius = 20
 		button.addTarget(
 			self,
 			action: #selector(anserButtonPressed),
