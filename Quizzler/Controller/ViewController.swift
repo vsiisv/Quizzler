@@ -44,6 +44,7 @@ class ViewController: UIViewController {
 		trueButton.backgroundColor = .clear
 		falseButton.backgroundColor = .clear
 		progressBar.progress = quizBrain.getProgress()
+		scoreLabel.text = "Score: \(quizBrain.getScore())"
 	}
 	
 	//MARK: - views
@@ -79,6 +80,12 @@ class ViewController: UIViewController {
 		return label
 	}()
 	
+	lazy var scoreLabel: UILabel = {
+		let label = UILabel()
+		label.textColor = .white
+		return label
+	}()
+	
 	lazy var progressBar: UIProgressView = {
 		let progressBar = UIProgressView()
 		progressBar.progressViewStyle = .bar
@@ -106,6 +113,7 @@ class ViewController: UIViewController {
 	func addSubviews() {
 		view.addSubview(backgroundBubbles)
 		view.addSubview(stackView)
+		stackView.addArrangedSubview(scoreLabel)
 		stackView.addArrangedSubview(questionText)
 		stackView.addArrangedSubview(trueButton)
 		stackView.addArrangedSubview(falseButton)
