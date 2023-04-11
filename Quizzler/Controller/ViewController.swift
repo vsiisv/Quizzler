@@ -11,8 +11,6 @@ class ViewController: UIViewController {
 	
 	var quizBrain = QuizBrain()
 
-	
-	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		view.backgroundColor = UIColor(red: 48/255, green: 58/255, blue: 92/255, alpha: 1)
@@ -40,17 +38,23 @@ class ViewController: UIViewController {
 	}
 	
 	@objc func updateUI() {
+		let answers = quizBrain.getAnswers()
 		questionText.text = quizBrain.getQuestionText()
-		trueButton.backgroundColor = .clear
-		falseButton.backgroundColor = .clear
+		answerOne.setTitle(answers[0], for: .normal)
+		answerTwo.setTitle(answers[1], for: .normal)
+		answerThree.setTitle(answers[2], for: .normal)
+		answerOne.backgroundColor = .clear
+		answerTwo.backgroundColor = .clear
+		answerThree.backgroundColor = .clear
 		progressBar.progress = quizBrain.getProgress()
 		scoreLabel.text = "Score: \(quizBrain.getScore())"
 	}
 	
 	//MARK: - views
 	
-	lazy var trueButton = createButton(title: "True")
-	lazy var falseButton = createButton(title: "False")
+	lazy var answerOne = createButton()
+	lazy var answerTwo = createButton()
+	lazy var answerThree = createButton()
 	
 	lazy var stackView: UIStackView = {
 		let stackView = UIStackView()
@@ -94,10 +98,9 @@ class ViewController: UIViewController {
 		return progressBar
 	}()
 	
-	func createButton(title: String) -> UIButton {
+	func createButton() -> UIButton {
 		let button = UIButton()
 		let image = UIImage(named: "Rectangle")
-		button.setTitle(title, for: .normal)
 		button.titleLabel?.font = UIFont.systemFont(ofSize: 25)
 		button.setBackgroundImage(image, for: .normal)
 		button.layer.cornerRadius = 20
@@ -115,8 +118,9 @@ class ViewController: UIViewController {
 		view.addSubview(stackView)
 		stackView.addArrangedSubview(scoreLabel)
 		stackView.addArrangedSubview(questionText)
-		stackView.addArrangedSubview(trueButton)
-		stackView.addArrangedSubview(falseButton)
+		stackView.addArrangedSubview(answerOne)
+		stackView.addArrangedSubview(answerTwo)
+		stackView.addArrangedSubview(answerThree)
 		stackView.addArrangedSubview(progressBar)
 	}
 	
@@ -141,8 +145,9 @@ class ViewController: UIViewController {
 	
 	func setButtonConstraints() {
 		NSLayoutConstraint.activate([
-			trueButton.heightAnchor.constraint(equalToConstant: 80),
-			falseButton.heightAnchor.constraint(equalToConstant: 80)
+			answerOne.heightAnchor.constraint(equalToConstant: 80),
+			answerTwo.heightAnchor.constraint(equalToConstant: 80),
+			answerThree.heightAnchor.constraint(equalToConstant: 80)
 		])
 	}
 	
